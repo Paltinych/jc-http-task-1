@@ -24,12 +24,10 @@ public class Main {
                         .build())
                 .build();
 
-
         HttpGet request = new HttpGet(REMOTE_SERVICE_URI);
         request.setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
         CloseableHttpResponse response = httpClient.execute(request);
-
 
         List<Post> posts = mapper.readValue(
                 response.getEntity().getContent(),
@@ -41,5 +39,7 @@ public class Main {
                 .filter(value -> value.getUpvotes() > 0)
                 .forEach(System.out::println);
 
+        response.close();
+        httpClient.close();
     }
 }
